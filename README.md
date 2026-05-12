@@ -124,7 +124,7 @@ La aplicación cuenta con:
 ## 1️⃣ Clonar repositorio
 
 ```bash
-git clone LINK_DEL_REPOSITORIO
+git clone https://github.com/Gaston-Camilo-Pauwels/parcial-react-native-compras.git
 ```
 
 ---
@@ -165,7 +165,7 @@ npx expo run:android
 
 # 🎥 Video Demo
 
-Pegar aquí el enlace del video de YouTube.
+https://youtu.be/EiFhrzOFTeA
 
 ---
 
