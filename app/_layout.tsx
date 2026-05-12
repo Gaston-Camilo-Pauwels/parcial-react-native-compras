@@ -1,24 +1,59 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { useEffect } from 'react';
+
+import * as Notifications from 'expo-notifications';
+
 import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
+export default function Layout() {
 
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+  useEffect(() => {
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  async function setupNotifications() {
+
+    // pedir permisos
+    await Notifications.requestPermissionsAsync();
+
+    // crear canal Android
+    await Notifications.setNotificationChannelAsync(
+      'default',
+      {
+        name: 'default',
+        importance:
+          Notifications.AndroidImportance.MAX,
+      }
+    );
+  }
+
+  setupNotifications();
+
+}, []);
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <Stack>
+      <Stack.Screen
+        name="index"
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="login"
+        options={{ title: 'Login' }}
+      />
+
+      <Stack.Screen
+        name="register"
+        options={{ title: 'Registro' }}
+      />
+
+      <Stack.Screen
+        name="home"
+        options={{ title: 'Inicio' }}
+      />
+
+      <Stack.Screen
+        name="add-item"
+        options={{ title: 'Agregar Producto' }}
+      />
+    </Stack>
   );
 }

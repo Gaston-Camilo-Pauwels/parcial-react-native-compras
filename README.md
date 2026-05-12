@@ -1,50 +1,174 @@
-# Welcome to your Expo app 👋
+# 🛒 Lista de Compras Inteligente
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Aplicación móvil desarrollada en React Native con Expo para el parcial de Aplicaciones Móviles.
 
-## Get started
+---
 
-1. Install dependencies
+# 📌 Opción elegida
 
-   ```bash
-   npm install
-   ```
+Lista de Compras Inteligente.
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+# 📋 Descripción
 
-In the output, you'll find options to open the app in a
+Este proyecto consiste en el desarrollo de una aplicación móvil de lista de compras utilizando **React Native con Expo y TypeScript**.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+La aplicación permite:
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- Registrar usuarios
+- Iniciar sesión
+- Agregar productos
+- Eliminar productos
+- Guardar información localmente utilizando AsyncStorage
+- Mostrar notificaciones locales
 
-## Get a fresh project
+Una vez autenticado, el usuario puede administrar su lista de compras desde la pantalla principal de la aplicación.
 
-When you're ready, run:
+---
 
-```bash
-npm run reset-project
+# 📁 Estructura del proyecto
+
+```txt
+app/
+├── _layout.tsx
+├── index.tsx
+├── login.tsx
+├── register.tsx
+├── home.tsx
+└── add-item.tsx
+
+lib/
+└── storage.ts
+
+assets/
+└── ...
+
+README.md
+package.json
+tsconfig.json
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+# 🧩 Funcionalidades implementadas
 
-To learn more about developing your project with Expo, look at the following resources:
+## 🔐 Autenticación
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- Registro de usuario
+- Inicio de sesión
+- Validación simple de credenciales
+- Logout
+- Persistencia de usuario mediante AsyncStorage
 
-## Join the community
+---
 
-Join our community of developers creating universal apps.
+## 🛒 Gestión de productos
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- Agregar productos
+- Mostrar lista de productos
+- Eliminar productos
+- Persistencia de datos local
+
+---
+
+## 🔔 Notificaciones locales
+
+- Implementadas con `expo-notifications`
+- Se dispara una notificación al agregar un producto
+- Recordatorio automático luego de algunos segundos
+
+---
+
+## 🧭 Navegación
+
+La navegación fue implementada utilizando:
+
+- Expo Router
+- React Navigation
+
+Pantallas:
+
+- Login
+- Registro
+- Home
+- Agregar producto
+
+---
+
+# 🎨 Diseño
+
+La aplicación cuenta con:
+
+- Diseño moderno
+- Botones personalizados
+- Inputs estilizados
+- Tarjetas visuales
+- Interfaz clara y responsive
+
+---
+
+# 🧩 Tecnologías utilizadas
+
+- React Native
+- Expo
+- TypeScript
+- Expo Router
+- AsyncStorage
+- Expo Notifications
+
+---
+
+# ▶️ Instalación y ejecución
+
+## 1️⃣ Clonar repositorio
+
+```bash
+git clone LINK_DEL_REPOSITORIO
+```
+
+---
+
+## 2️⃣ Instalar dependencias
+
+```bash
+npm install
+```
+
+---
+
+## 3️⃣ Ejecutar proyecto
+
+```bash
+npx expo start
+```
+
+---
+
+o
+
+## Ejecutar proyecto con emulador de android (para ver notificaciones)
+
+```bash
+npx expo run:android
+```
+
+---
+
+## 4️⃣ Ejecutar en
+
+- Android Studio Emulator
+- Expo Go
+- Development Build
+
+---
+
+# 🎥 Video Demo
+
+Pegar aquí el enlace del video de YouTube.
+
+---
+
+# 👨‍💻 Alumno
+
+- Gaston Camilo Pauwels
