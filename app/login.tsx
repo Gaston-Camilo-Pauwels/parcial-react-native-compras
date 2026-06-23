@@ -30,13 +30,13 @@ export default function Login() {
       savedUser?.password === password
     ) {
 
-      // guardar sesión
+      
       await saveData(
         'isLoggedIn',
         true
       );
 
-      // ir al home
+      
       router.replace('/home');
 
     } else {

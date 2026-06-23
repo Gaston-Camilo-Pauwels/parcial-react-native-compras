@@ -10,10 +10,10 @@ export default function Layout() {
 
   async function setupNotifications() {
 
-    // pedir permisos
+    
     await Notifications.requestPermissionsAsync();
 
-    // crear canal Android
+    
     await Notifications.setNotificationChannelAsync(
       'default',
       {

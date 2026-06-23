@@ -10,64 +10,82 @@ import { router } from 'expo-router';
 
 import { useFocusEffect } from '@react-navigation/native';
 
-import {
-  useCallback,
-  useState,
-} from 'react';
+import { useCallback } from 'react';
 
 import {
   getData,
   saveData,
 } from '../lib/storage';
 
+import ProductCard from '../components/ProductCard';
+
+import {
+  useProductStore,
+} from '../store/productStore';
+
 export default function Home() {
-  const [products, setProducts] =
-    useState<string[]>([]);
 
-  // cargar productos
-  const loadProducts = async () => {
-    const savedProducts =
-      await getData('products');
+  const {
+    products,
+    setProducts,
+  } = useProductStore();
 
-    if (savedProducts) {
-      setProducts(savedProducts);
-    } else {
-      setProducts([]);
-    }
-  };
+  const loadProducts =
+    async () => {
 
-  // eliminar producto
-  const deleteProduct = async (
-    indexToDelete: number
-  ) => {
-    const updatedProducts =
-      products.filter(
-        (_, index) =>
-          index !== indexToDelete
+      const savedProducts =
+        await getData(
+          'products'
+        );
+
+      if (
+        savedProducts &&
+        Array.isArray(
+          savedProducts
+        )
+      ) {
+        setProducts(
+          savedProducts
+        );
+      } else {
+        setProducts([]);
+      }
+    };
+
+  const deleteProduct =
+    async (
+      id: string
+    ) => {
+
+      const updatedProducts =
+        products.filter(
+          (product) =>
+            product.id !== id
+        );
+
+      setProducts(
+        updatedProducts
       );
 
-    setProducts(updatedProducts);
+      await saveData(
+        'products',
+        updatedProducts
+      );
+    };
 
-    await saveData(
-      'products',
-      updatedProducts
-    );
-  };
+  const logout =
+    async () => {
 
-  // cerrar sesión
-  const logout = async () => {
+      await saveData(
+        'isLoggedIn',
+        false
+      );
 
-    // borrar sesión
-    await saveData(
-      'isLoggedIn',
-      false
-    );
+      router.replace(
+        '/login'
+      );
+    };
 
-    // volver al login
-    router.replace('/login');
-  };
-
-  // recargar productos
   useFocusEffect(
     useCallback(() => {
       loadProducts();
@@ -84,180 +102,147 @@ export default function Home() {
       <TouchableOpacity
         style={styles.addButton}
         onPress={() =>
-          router.push('/add-item')
+          router.push(
+            '/add-item'
+          )
         }
       >
-        <Text style={styles.addButtonText}>
+        <Text
+          style={
+            styles.addButtonText
+          }
+        >
           ➕ Agregar Producto
         </Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={styles.logoutButton}
+        style={
+          styles.logoutButton
+        }
         onPress={logout}
       >
-        <Text style={styles.logoutText}>
+        <Text
+          style={
+            styles.logoutText
+          }
+        >
           🔒 Cerrar Sesión
         </Text>
       </TouchableOpacity>
 
-      {products.length === 0 && (
+      {products.length ===
+        0 && (
         <Text
           style={{
-            textAlign: 'center',
+            textAlign:
+              'center',
+
             marginTop: 40,
-            color: '#64748b',
+
+            color:
+              '#64748b',
+
             fontSize: 16,
           }}
         >
-          No hay productos agregados
+          No hay productos
+          agregados
         </Text>
       )}
 
       <FlatList
         data={products}
-        keyExtractor={(_, index) =>
-          index.toString()
-        }
-        renderItem={({ item, index }) => (
-          <View style={styles.item}>
-
-            <Text style={styles.itemText}>
-              {item}
-            </Text>
-
-            <TouchableOpacity
-              style={styles.deleteButton}
-              onPress={() =>
-                deleteProduct(index)
-              }
-            >
-              <Text style={styles.deleteText}>
-                ✕
-              </Text>
-            </TouchableOpacity>
-
-          </View>
+        keyExtractor={(
+          item
+        ) => item.id}
+        renderItem={({
+          item,
+        }) => (
+          <ProductCard
+            product={item}
+            onDelete={
+              deleteProduct
+            }
+          />
         )}
       />
+
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+const styles =
+  StyleSheet.create({
+    container: {
+      flex: 1,
 
-    paddingHorizontal: 20,
+      paddingHorizontal: 20,
 
-    backgroundColor: '#f1f5f9',
+      backgroundColor:
+        '#f1f5f9',
 
-    paddingTop: 70,
-  },
+      paddingTop: 70,
+    },
 
-  title: {
-    fontSize: 34,
+    title: {
+      fontSize: 34,
 
-    fontWeight: 'bold',
+      fontWeight:
+        'bold',
 
-    color: '#0f172a',
+      color:
+        '#0f172a',
 
-    marginBottom: 25,
+      marginBottom: 25,
 
-    textAlign: 'center',
-  },
+      textAlign:
+        'center',
+    },
 
-  item: {
-    backgroundColor: 'white',
+    addButton: {
+      backgroundColor:
+        '#2563eb',
 
-    padding: 18,
+      padding: 16,
 
-    marginTop: 12,
+      borderRadius: 14,
 
-    borderRadius: 14,
+      alignItems:
+        'center',
 
-    flexDirection: 'row',
+      marginBottom: 12,
+    },
 
-    justifyContent: 'space-between',
+    addButtonText: {
+      color: 'white',
 
-    alignItems: 'center',
+      fontSize: 18,
 
-    shadowColor: '#000',
+      fontWeight:
+        'bold',
+    },
 
-    shadowOpacity: 0.08,
+    logoutButton: {
+      backgroundColor:
+        '#ef4444',
 
-    shadowRadius: 5,
+      padding: 14,
 
-    elevation: 3,
-  },
+      borderRadius: 14,
 
-  itemText: {
-    fontSize: 18,
+      alignItems:
+        'center',
 
-    fontWeight: '600',
+      marginBottom: 20,
+    },
 
-    color: '#1e293b',
-  },
+    logoutText: {
+      color: 'white',
 
-  addButton: {
-    backgroundColor: '#2563eb',
+      fontSize: 16,
 
-    padding: 16,
-
-    borderRadius: 14,
-
-    alignItems: 'center',
-
-    marginBottom: 12,
-  },
-
-  addButtonText: {
-    color: 'white',
-
-    fontSize: 18,
-
-    fontWeight: 'bold',
-  },
-
-  deleteButton: {
-    backgroundColor: '#ef4444',
-
-    width: 36,
-
-    height: 36,
-
-    borderRadius: 18,
-
-    justifyContent: 'center',
-
-    alignItems: 'center',
-  },
-
-  deleteText: {
-    color: 'white',
-
-    fontWeight: 'bold',
-
-    fontSize: 18,
-  },
-
-  logoutButton: {
-    backgroundColor: '#ef4444',
-
-    padding: 14,
-
-    borderRadius: 14,
-
-    alignItems: 'center',
-
-    marginBottom: 20,
-  },
-
-  logoutText: {
-    color: 'white',
-
-    fontSize: 16,
-
-    fontWeight: 'bold',
-  },
-});
+      fontWeight:
+        'bold',
+    },
+  });
